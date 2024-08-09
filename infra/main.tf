@@ -1,4 +1,11 @@
 terraform {
+  backend "remote" {
+    organization = "PSIOG"
+    workspaces{
+      name="tutorial"
+    }
+  }
+  
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -12,15 +19,10 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "example" {
-  bucket = "${var.aws_s3_bucket}"
+  bucket = var.aws_s3_bucket
 
   tags = {
-    Name        = "My bucket"
+    Name        = "My test-bucket"
     Environment = "Dev"
   }
-}
-
-variable "aws_s3_bucket" {
-  default     = "2432432jnjn23432j234"
-  description = "S3 bucket used for file batch job resources"
 }

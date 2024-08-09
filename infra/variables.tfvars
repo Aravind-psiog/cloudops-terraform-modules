@@ -1,1 +1,0 @@
-aws_s3_bucket = "1wefew-124354teeeert"
