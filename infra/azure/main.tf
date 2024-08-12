@@ -1,9 +1,9 @@
 # Configure the Azure provider
 terraform {
-    backend "remote" {
+  backend "remote" {
     organization = "PSIOG"
-    workspaces{
-      name="tutorial_azure"
+    workspaces {
+      name = "tutorial_azure"
     }
   }
   required_providers {
