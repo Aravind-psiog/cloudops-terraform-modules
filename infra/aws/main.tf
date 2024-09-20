@@ -26,34 +26,38 @@ resource "random_pet" "name" {
 
 }
 
-resource "aws_s3_bucket" "example" {
-  bucket = var.aws_s3_bucket
+# resource "aws_s3_bucket" "example" {
+#   bucket = var.aws_s3_bucket
 
-  tags = {
-    Name        = "My test-bucket"
-    Environment = "Dev"
-  }
-}
+#   tags = {
+#     Name        = "My test-bucket"
+#     Environment = "Dev"
+#   }
+# }
 
-data "aws_ami" "ubuntu-linux-1404" {
+data "aws_ami" "ubuntu" {
   most_recent = true
-  owners      = ["099720109477"] # Canonical
+
   filter {
-    name   = random_pet.name.id
-    values = ["ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-*"]
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
+
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
+
+  owners = ["099720109477"] # Canonical
 }
 
 resource "aws_instance" "webserver" {
-  ami           = data.aws_ami.ubuntu-linux-1404.id
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t1.micro"
   user_data     = file("init-script.sh")
+
   tags = {
-    Name = "instance-${random_pet.name.id}"
+    Name = random_pet.name.id
   }
 }
 
