@@ -1,0 +1,24 @@
+name: Notify Slack on PR Merge
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main # Adjust to your target branch
+
+jobs:
+  notify-slack:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Slack message
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: "C1234567890" # Replace with your Slack channel ID
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # Set this in GitHub secrets
+          SLACK_USERNAME: "GitHub Actions Bot"
+        with:
+          message: |
+            :tada: Pull request *${{ github.event.pull_request.title }}* has been merged into `main` by *${{ github.event.pull_request.merged_by.login }}*!
+            PR URL: ${{ github.event.pull_request.html_url }}
