@@ -26,14 +26,14 @@ resource "random_pet" "name" {
 
 }
 
-# resource "aws_s3_bucket" "example" {
-#   bucket = var.aws_s3_bucket
+resource "aws_s3_bucket" "example" {
+  bucket = var.aws_s3_bucket
 
-#   tags = {
-#     Name        = "My test-bucket"
-#     Environment = "Dev"
-#   }
-# }
+  tags = {
+    Name        = "My test-bucket"
+    Environment = "Dev"
+  }
+}
 
 data "aws_ami" "ubuntu-linux-1404" {
   most_recent = true
