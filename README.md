@@ -2,7 +2,7 @@
 
 This repository contains Infrastructure as Code (IaC) scripts written in Terraform, designed to automate the provisioning and management of cloud resources across both AWS and Azure. With a provider-agnostic approach, the repository allows you to easily manage infrastructure on multiple cloud platforms while ensuring consistency, repeatability, and scalability.
 
-## Terraform? ![Terraform](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/readme-for-terraform/assests/tf-icon.png?raw=true)
+## Terraform? ![Terraform](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/main/assests/tf-icon.png?raw=true)
 
 Terraform is an open-source IaC tool created by HashiCorp. It uses a high-level configuration language provided by HashiCorp Configuration Language and provisions, manages, and automates infrastructure. There are different flavors or modes in which Terraform can be deployed:
 
