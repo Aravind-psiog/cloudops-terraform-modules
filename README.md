@@ -1,8 +1,8 @@
-# Cloud native - IaC ![AWS](https://img.icons8.com/color/48/000000/amazon-web-services.png) and ![Azure](https://img.icons8.com/color/48/000000/azure-1.png)
+# Cloud native - IaC ![AWS](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/readme-for-terraform/assests/aws.png?raw=true) and ![Azure](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/readme-for-terraform/assests/azure.png?raw=true)
 
 This repository contains Infrastructure as Code (IaC) scripts written in Terraform, designed to automate the provisioning and management of cloud resources across both AWS and Azure. With a provider-agnostic approach, the repository allows you to easily manage infrastructure on multiple cloud platforms while ensuring consistency, repeatability, and scalability.
 
-## Terraform? ![Terraform](https://img.icons8.com/color/48/000000/terraform.png)
+## Terraform? ![Terraform](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/readme-for-terraform/assests/tf-icon.png?raw=true)
 
 Terraform is an open-source IaC tool created by HashiCorp. It uses a high-level configuration language provided by HashiCorp Configuration Language and provisions, manages, and automates infrastructure. There are different flavors or modes in which Terraform can be deployed:
 
@@ -129,6 +129,51 @@ Example:
 terraform destroy
 ```
 
-## Terraform IaC for ![AWS](https://img.icons8.com/color/24/000000/amazon-web-services.png)
+## Terraform IaC for ![AWS](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/readme-for-terraform/assests/aws.png?raw=true)
 
-## Terraform IaC for ![Azure](https://img.icons8.com/color/24/000000/azure-1.png)
+### Setup
+
+1. [Follow these steps to install terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+2. [Install AWS CLI following these steps](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+3. As we are goint to use of remote storage for storing the state file, [follow these steps to configure remote state](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-remote)
+
+### Deploying
+
+1. Clone the main repo
+2. switch to the directory with the tf file.
+   ```bash
+   cd /infra/aws
+   ```
+3. update your remote organization and workspace name on `main.tf`
+   ```bash
+   terraform {
+   backend "remote" {
+   organization = "PSIOG"
+   workspaces {
+     name = "tutorial"
+   }
+   }
+   ```
+4. Initialize terraform by
+   ```bash
+   terraform init
+   ```
+5. Additional checks:
+   ```bash
+   terraform validate
+   ```
+6. See the plan by
+   ```bash
+   terraform plan
+   ```
+7. Apply the plan by
+   ```bash
+   terraform apply
+   ```
+8. Copy the output IP address and open it on your browser
+   ![](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/readme-for-terraform/assests/tf.gif?raw=true)
+
+## Terraform IaC for ![Azure](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/readme-for-terraform/assests/azure.png?raw=true)
+
+1. [Install Azure CLI with the following](https://developer.hashicorp.com/terraform/tutorials/azure-get-started/azure-build)
+2. Follow the same steps as mentioned above.
