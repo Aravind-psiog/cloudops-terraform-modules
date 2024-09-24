@@ -39,8 +39,6 @@ Terraform interacts with different infrastructure providers through plugins call
 Example:
 
 ```
-hcl
-Copy code
 provider "aws" {
   region = "us-west-2"
 }
@@ -54,8 +52,6 @@ Resources are Terraform's fundamental building blocks. They represent infrastruc
 Example:
 
 ```
-hcl
-Copy code
 resource "aws_instance" "example" {
   ami           = "ami-123456"
   instance_type = "t2.micro"
@@ -70,8 +66,6 @@ A **Module** is a container for multiple resources that can be reused across dif
 Example:
 
 ```
-hcl
-Copy code
 module "network" {
   source = "./network"
   cidr   = "10.0.0.0/16"
