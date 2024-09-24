@@ -1,4 +1,4 @@
-# Cloud native - IaC ![AWS](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/readme-for-terraform/assests/aws.png?raw=true) and ![Azure](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/readme-for-terraform/assests/azure.png?raw=true)
+# Cloud native - IaC ![AWS](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/main/assests/aws.png?raw=true) and ![Azure](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/main/assests/azure.png?raw=true)
 
 This repository contains Infrastructure as Code (IaC) scripts written in Terraform, designed to automate the provisioning and management of cloud resources across both AWS and Azure. With a provider-agnostic approach, the repository allows you to easily manage infrastructure on multiple cloud platforms while ensuring consistency, repeatability, and scalability.
 
@@ -129,7 +129,7 @@ Example:
 terraform destroy
 ```
 
-## Terraform IaC for ![AWS](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/readme-for-terraform/assests/aws.png?raw=true)
+## Terraform IaC for ![AWS](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/main/assests/aws.png?raw=true)
 
 ### Setup
 
@@ -171,9 +171,9 @@ terraform destroy
    terraform apply
    ```
 8. Copy the output IP address and open it on your browser
-   ![](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/readme-for-terraform/assests/tf.gif?raw=true)
+   ![](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/main/assests/tf.gif?raw=true)
 
-## Terraform IaC for ![Azure](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/readme-for-terraform/assests/azure.png?raw=true)
+## Terraform IaC for ![Azure](https://github.com/Aravind-psiog/cloudops-terraform-modules/blob/main/assests/azure.png?raw=true)
 
 1. [Install Azure CLI with the following](https://developer.hashicorp.com/terraform/tutorials/azure-get-started/azure-build)
 2. Follow the same steps as mentioned above.
