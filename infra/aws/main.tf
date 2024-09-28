@@ -69,8 +69,8 @@ resource "aws_cognito_user_pool" "user_pool" {
 
   # Configure verification email
   verification_message_template {
-    email_subject  = "Verify your email for our app"
-    email_message  = "Hello, please verify your email by entering the code: {####}"
+    email_subject        = "Verify your email for our app"
+    email_message        = "Hello, please verify your email by entering the code: {####}"
     default_email_option = "CONFIRM_WITH_CODE"
   }
 
@@ -90,13 +90,13 @@ resource "aws_cognito_user_pool" "user_pool" {
 }
 
 resource "aws_cognito_user_pool_domain" "user_pool_domain" {
-  domain      = "example-user-pool"
+  domain       = "example-user-pool"
   user_pool_id = aws_cognito_user_pool.user_pool.id
 }
 
 resource "aws_cognito_user_pool_client" "user_pool_client" {
-  name           = "user-pool-client"
-  user_pool_id   = aws_cognito_user_pool.user_pool.id
+  name            = "user-pool-client"
+  user_pool_id    = aws_cognito_user_pool.user_pool.id
   generate_secret = false
 }
 
@@ -106,8 +106,8 @@ resource "aws_iam_role" "lambda_execution_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Action    = "sts:AssumeRole",
-      Effect    = "Allow",
+      Action = "sts:AssumeRole",
+      Effect = "Allow",
       Principal = {
         Service = "lambda.amazonaws.com"
       }
@@ -125,7 +125,7 @@ resource "aws_lambda_function" "post_verification_lambda" {
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.9"
 
-  filename = "/mnt/host/d/linux/cloudops-terraform-modules/functions/hello.zip"
+  filename = "functions/hello.zip"
 }
 
 output "user_pool_id" {
