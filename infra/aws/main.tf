@@ -61,6 +61,16 @@ resource "random_pet" "name" {
 #   }
 # }
 
+# Permission for Cognito to invoke the Lambda function
+resource "aws_lambda_permission" "allow_cognito_invoke" {
+  statement_id  = "AllowCognitoInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.post_verification_lambda.function_name
+  principal     = "cognito-idp.amazonaws.com"
+
+  # Specify the User Pool ARN to restrict the source
+  source_arn = aws_cognito_user_pool.user_pool.arn
+}
 
 resource "aws_cognito_user_pool" "user_pool" {
   name = "user-pool"
@@ -101,7 +111,7 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
 }
 
 resource "aws_iam_role" "lambda_execution_role" {
-  name = "lambda_execution_role"
+  name = "lambda_execution_role_test"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -115,17 +125,19 @@ resource "aws_iam_role" "lambda_execution_role" {
   })
 
   managed_policy_arns = [
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",  # For basic execution (CloudWatch logging)
+    "arn:aws:iam::aws:policy/AmazonCognitoPowerUser"  # For Cognito operations
   ]
 }
 
 resource "aws_lambda_function" "post_verification_lambda" {
   function_name = "post_verification_function"
   role          = aws_iam_role.lambda_execution_role.arn
-  handler       = "lambda_function.lambda_handler"
+  handler       = "hello.lambda_handler"
   runtime       = "python3.9"
 
   filename = "functions/hello.zip"
+  source_code_hash = filemd5("functions/hello.zip")
 }
 
 output "user_pool_id" {
