@@ -99,6 +99,10 @@ resource "null_resource" "run_mongo_script" {
     command = "python etl_mongo.py"
 
   }
+  triggers = {
+    # Generate a file hash to detect changes
+    etl_file_hash = "${filesha256("etl_mongo.py")}"
+  }
 
   depends_on = [mongodbatlas_cluster.example]
 }
