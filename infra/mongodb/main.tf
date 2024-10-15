@@ -17,13 +17,13 @@ provider "aws" {
 }
 
 provider "mongodbatlas" {
-  public_key  = "ecoshrmv"
-  private_key = "212052e7-2f2b-4c85-a7ce-07cc9647f826"
+  public_key  = var.public_key
+  private_key = var.private_key
 }
 
 # Create a MongoDB Atlas Cluster
 resource "mongodbatlas_cluster" "example" {
-  project_id                  = "62468926e86a001c7fe5e063"
+  project_id                  = var.project_id
   name                        = var.mongo_cluster
   provider_name               = "AWS"
   provider_region_name        = "US_EAST_1"

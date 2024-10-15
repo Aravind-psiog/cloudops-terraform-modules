@@ -20,3 +20,11 @@ variable "mongo_password" {
 variable "project_id" {
 
 }
+
+variable "public_key" {
+
+}
+
+variable "private_key" {
+
+}
