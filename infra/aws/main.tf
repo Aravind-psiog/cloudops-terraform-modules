@@ -63,9 +63,9 @@ resource "random_pet" "name" {
 
 
 resource "aws_cognito_user_pool" "user_pool" {
-  name = "user-pool"
+  name = "user-pool1"
 
-  alias_attributes = ["email", "preferred_username"]
+  username_attributes = ["email"]
 
   # Configure verification email
   verification_message_template {
@@ -89,19 +89,38 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
 }
 
+resource "aws_cognito_user_pool_client" "user_pool_client" {
+  name         = "user-pool-client"
+  user_pool_id = aws_cognito_user_pool.user_pool.id
+
+  # Enable USER_PASSWORD_AUTH flow
+  explicit_auth_flows = [
+    "ALLOW_USER_PASSWORD_AUTH",
+    "ALLOW_REFRESH_TOKEN_AUTH"
+  ]
+
+  # Ensure you allow standard OAuth flows if needed
+  allowed_oauth_flows  = ["code", "implicit"]
+  allowed_oauth_scopes = ["email", "openid"]
+
+  # (Optional) Configure callback URLs for OAuth flow
+  callback_urls = ["https://your-app.com/callback"]
+
+  # (Optional) Configure logout URLs
+  logout_urls = ["https://your-app.com/logout"]
+
+  # Add any other settings you need
+}
+
+
 resource "aws_cognito_user_pool_domain" "user_pool_domain" {
   domain       = "example-user-pool"
   user_pool_id = aws_cognito_user_pool.user_pool.id
 }
 
-resource "aws_cognito_user_pool_client" "user_pool_client" {
-  name            = "user-pool-client"
-  user_pool_id    = aws_cognito_user_pool.user_pool.id
-  generate_secret = false
-}
 
 resource "aws_iam_role" "lambda_execution_role" {
-  name = "lambda_execution_role"
+  name = "lambda_execution_role_cg"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -113,20 +132,29 @@ resource "aws_iam_role" "lambda_execution_role" {
       }
     }]
   })
+}
 
-  managed_policy_arns = [
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-  ]
+resource "aws_iam_role_policy_attachment" "lambda_cognito_policy" {
+  role       = aws_iam_role.lambda_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole" # Basic Lambda execution role
 }
 
 resource "aws_lambda_function" "post_verification_lambda" {
   function_name = "post_verification_function"
   role          = aws_iam_role.lambda_execution_role.arn
-  handler       = "lambda_function.lambda_handler"
+  handler       = "hello.lambda_handler"
   runtime       = "python3.9"
 
   filename         = "functions/hello.zip"
   source_code_hash = filemd5("functions/hello.zip")
+}
+
+resource "aws_lambda_permission" "allow_cognito_invocation" {
+  statement_id  = "AllowCognitoInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.post_verification_lambda.function_name
+  principal     = "cognito-idp.amazonaws.com"
+  source_arn    = aws_cognito_user_pool.user_pool.arn
 }
 
 output "user_pool_id" {

@@ -48,6 +48,26 @@ resource "mongodbatlas_database_user" "db_user" {
   depends_on = [mongodbatlas_cluster.example]
 }
 
+resource "random_uuid" "secret_id" {}
+
+# Create an AWS Secrets Manager secret to store MongoDB credentials
+resource "aws_secretsmanager_secret" "mongo_secret" {
+  name        = "mongo-db-secret-${random_uuid.secret_id.result}"
+  description = "MongoDB credentials and connection information"
+}
+
+resource "aws_secretsmanager_secret_version" "mongo_secret_version" {
+  secret_id = aws_secretsmanager_secret.mongo_secret.id
+  secret_string = jsonencode({
+    username = var.mongo_username
+    password = var.mongo_password
+    uri      = <<EOT
+${replace(mongodbatlas_cluster.example.connection_strings[0].standard_srv, "mongodb+srv://", "")}
+EOT
+    db_name  = "admin"
+  })
+}
+
 
 # Generate a random UUID for the S3 bucket name
 resource "random_uuid" "bucket_id" {}
