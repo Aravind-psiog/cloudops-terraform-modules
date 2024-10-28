@@ -1,0 +1,15 @@
+beanie
+boto3
+dnspython
+fastapi
+httpx
+isort
+mangum
+pyparsing
+pytest
+pytest-asyncio
+python-dotenv
+python-jose
+requests
+tk
+uvicorn[standard]
